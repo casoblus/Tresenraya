@@ -2,113 +2,107 @@ import java.util.Scanner;
 public class Tresenraya 
 {
 		static int[] fichas = {3,3};
-		// JUGADOR
-		// SWITCH_PLAYER
+		// SWITCH_PLAYER . Intercambia jugador
 		private static int SWITCH_PLAYER( int player )
 		{
 			if( player == 1 )
 			{
-				System.out.println( "Juega B." );
+				System.out.println( "Jugador 2." );
 				return 2;
 			}
-			System.out.println( "Juega A." );
+			System.out.println( "Jugador 1." );
 			return 1;
 		}
 		// CHECK_WINS
 		private static boolean CHECK_WINS( int player, int[][] tab )
 		{
+			boolean win = false;
 			// Empiezo por la casilla del centro
 			if ( tab[1][1] == player ) // La pieza central pertenece al jugador
 			{
 				if ( tab[0][1] == player && tab[2][1] == player ) 
 				{
-					System.out.println( "Jugador "+player+" gana." );
-					return true;
+					win =  true;
 				} 
 				else if ( tab[1][0] == player && tab[1][2] == player )
 				{
-					System.out.println( "Jugador "+player+" gana." );
-					return true;
+					win =  true;
 				}
 				else if ( tab[0][0] == player && tab[2][2] == player )
 				{
-					System.out.println( "Jugador "+player+" gana." );
-					return true;
+					win =  true;
 				}
 				else if ( tab[0][2] == player && tab[2][0] == player )
 				{
-					System.out.println( "Jugador "+player+" gana." );
-					return true;
+					win =  true;
 				}
-				
-					
+								
 			} else {
 				// Solo quedan cuatro posibilidades
 				if ( tab[0][1] == player ) 
 				{
 					if ( tab[0][0] == player && tab[0][2] == player )
-					{
-							System.out.println( "Jugador "+player+" gana." );
-							return true;
-					}
+							win =  true;
 				} 
 				else if ( tab[1][0] == player )
 				{
 					if ( tab[0][0] == player && tab[2][0] == player )
-					{
-							System.out.println( "Jugador "+player+" gana." );
-							return true;
-					}
+							win =  true;
 				}
 				else if ( tab[2][1] == player )
 				{
-						if ( tab[2][0] == player && tab[2][2] == player )
-					{
-							System.out.println( "Jugador "+player+" gana." );
-							return true;
-					}
+					if ( tab[2][0] == player && tab[2][2] == player )
+							win =  true;
 				}
 				else if ( tab[1][2] == player )
 				{
 					if ( tab[0][2] == player && tab[2][2] == player )
-					{
-							System.out.println( "Jugador "+player+" gana." );
-							return true;
-					}
+							win = true;
 				}
 			}
-			return false;
+			if (win == true)
+				System.out.println( "Jugador "+player+" gana." );
+					
+			return win;
 		}
+
+		// GET_VALID_POSITION
+		private static int GET_VALID_POSITION()
+		{
+			Scanner sc = new Scanner( System.in );
+			int pos;
+			do {
+				System.out.println( "Introduzca un número válido [ 0 | 1 | 2 ]:" );
+				pos = sc.nextInt();
+			} while( pos < 0 || pos > 2 );
+			return pos;
+		}
+
 		// PUT_FICHA
 		private static void PUT_FICHA( int player, int[][] tab )
 		{
 			boolean isBusy;
 			int fila, columna;
-
-			Scanner sc = new Scanner( System.in );
 			
 			// Si la casilla está ocupada vuelve a pedir coordenadas
 			do {
+			
 				System.out.println( "fila: " );
-				fila = sc.nextInt();
+				fila = GET_VALID_POSITION();
 				System.out.println( "columna: " );
-				columna = sc.nextInt();
+				columna = GET_VALID_POSITION();
 				isBusy = true;
-				if ( fila >= 0 && fila < 3 )
+				
+				if( tab[ fila ][ columna ] != 0 )
 				{
-					if ( columna >= 0 && columna < 3 )
-					{
-						if( tab[ fila ][ columna ] != 0 )
-						{
-							isBusy = true;
-							System.out.println( "Casilla inválida. Prueba de nuevo." );
-						}
-						else 
-						{ 
-							isBusy = false;
-						}
-					}
-				} 
+					isBusy = true;
+					System.out.println( "Casilla inválida. Prueba de nuevo." );
+				}
+				else 
+				{ 
+					isBusy = false;
+				}
+
 			} while( isBusy );
 			
 			// Pone la ficha
@@ -124,16 +118,12 @@ public class Tresenraya
 
 				System.out.println( "Introduzca ficha a mover: " );
 				do {
-					do {
-						do {	
-							System.out.println( "fila: " );
-							remFila = sc.nextInt();
-							System.out.println( "columna: " );
-							remColumna = sc.nextInt();
-							// Se repite mientras que la casilla no 
-							// contenga una ficha perteneciente al jugador
-						} while ( remColumna < 0 || remColumna > 2 );
-					} while ( remFila < 0 || remFila > 2 );
+					System.out.println( "fila: " );
+					remFila = GET_VALID_POSITION();
+					System.out.println( "columna: " );
+					remColumna = GET_VALID_POSITION();
+					// Se repite mientras que la casilla no 
+					// contenga una ficha perteneciente al jugador
 				} while ( tab[ remFila ][ remColumna ] != player );
 				
 				tab[ remFila ][ remColumna ] = 0;
