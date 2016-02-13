@@ -140,29 +140,84 @@ public class Tresenraya
 				tab[ fila ][ columna ] = player;
 			}
 		}
+		// CONTINUE_PLAYING
+		private static boolean CONTINUE_PLAYING()
+		{
+			Scanner sc = new Scanner( System.in );
+			System.out.println( "¿Volver a jugar? [S|N]" );
+			String play = sc.nextLine();
+			boolean response = false;
+			int nest = 0;
+			
+			switch( play )
+			{	
+				case "s":
+				case "S":
+						response = true; // Nuevo juego
+						break;
+				case "n":
+				case "N":
+						response = false; // Termina
+						break;
+
+				// En cualquier otro caso...
+				default: 
+						// Se vuelve a llamar a la funcion CONTIUE_PLAYING()
+						// en nest se almacena el numero de veces que se llama 
+						// a la función de manera recursiva.
+						nest++;
+						if ( nest < 3 ) 
+						{
+							response = CONTINUE_PLAYING();
+						} 
+						else if ( nest < 6 )  // a partir de tres niveles de recursividad se advierte al usuario.
+						{
+							System.out.println( "Preste atención. Responda S o N." );
+							response = CONTINUE_PLAYING();
+						} 
+						else  // Si el usuario se equivoca más de 5 veces, el juego termina.
+						{
+							System.out.println( "No voy a seguir con esto... ¡Adios!" );
+							response = false;
+						}
+						break;
+			}
+			return response;
+		}
 		
 		// MAIN_CONTROLLER
 		public static void main( String[] args )
 		{
-
-			int[][] tab = {
+			do {
+					// Define el tablero
+				int[][] tab = {
 					{ 0, 0, 0 },
 					{ 0, 0, 0 },
 					{ 0, 0, 0 }
-			};
-
-			int player = 2;
-			
-			do {
-				System.out.println("\t"+tab[0][0]+"-"+tab[0][1]+"-"+tab[0][2]);
-				System.out.println("\t|\\|/|");
-				System.out.println("\t"+tab[1][0]+"-"+tab[1][1]+"-"+tab[1][2]);
-				System.out.println("\t|/|\\|");
-				System.out.println("\t"+tab[2][0]+"-"+tab[2][1]+"-"+tab[2][2]);
-				player = SWITCH_PLAYER( player );
+				};
 				
-				PUT_FICHA( player, tab );
+				// Se establece el jugador 2
+				// en el primer bucle en el do-while se intercambiará por el 1
+				int player = 2;
+			
+				do {
+						// Imprime el tablero
+					System.out.println("\t"+tab[0][0]+"-"+tab[0][1]+"-"+tab[0][2]);
+					System.out.println("\t|\\|/|");
+					System.out.println("\t"+tab[1][0]+"-"+tab[1][1]+"-"+tab[1][2]);
+					System.out.println("\t|/|\\|");
+					System.out.println("\t"+tab[2][0]+"-"+tab[2][1]+"-"+tab[2][2]);
+					
+					// Intercambia el jugador
+					player = SWITCH_PLAYER( player );
+					
+					// Pone ficha
+					PUT_FICHA( player, tab );
 
-			} while ( CHECK_WINS( player, tab ) == false );
+					// Se comprueba si hay ganador
+				} while ( CHECK_WINS( player, tab ) == false );
+				
+				// Seguir jugando?
+			} while ( CONTINUE_PLAYING() );
 		}
 }
