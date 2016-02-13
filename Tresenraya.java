@@ -60,7 +60,7 @@ public class Tresenraya
 							win = true;
 				}
 			}
-			if (win == true)
+			if ( win == true )
 				System.out.println( "Jugador "+player+" gana." );
 					
 			return win;
@@ -70,12 +70,12 @@ public class Tresenraya
 		private static int GET_VALID_POSITION()
 		{
 			Scanner sc = new Scanner( System.in );
-			int pos;
+			int number;
 			do {
 				System.out.println( "Introduzca un número válido [ 0 | 1 | 2 ]:" );
-				pos = sc.nextInt();
-			} while( pos < 0 || pos > 2 );
-			return pos;
+				number = sc.nextInt();
+			} while( number < 0 || number > 2 );
+			return number;
 		}
 
 		// PUT_FICHA
@@ -191,12 +191,12 @@ public class Tresenraya
 				int player = 2;
 			
 				do {
-						// Imprime el tablero
-					System.out.println("\t"+tab[0][0]+"-"+tab[0][1]+"-"+tab[0][2]);
-					System.out.println("\t|\\|/|");
-					System.out.println("\t"+tab[1][0]+"-"+tab[1][1]+"-"+tab[1][2]);
-					System.out.println("\t|/|\\|");
-					System.out.println("\t"+tab[2][0]+"-"+tab[2][1]+"-"+tab[2][2]);
+					// Imprime el tablero
+					System.out.println("\t["+tab[0][0]+"]-["+tab[0][1]+"]-["+tab[0][2]+"]");
+					System.out.println("\t | \\ | / | ");
+					System.out.println("\t["+tab[1][0]+"]-["+tab[1][1]+"]-["+tab[1][2]+"]");
+					System.out.println("\t | / | \\ | ");
+					System.out.println("\t["+tab[2][0]+"]-["+tab[2][1]+"]-["+tab[2][2]+"]");
 					
 					// Intercambia el jugador
 					player = SWITCH_PLAYER( player );
